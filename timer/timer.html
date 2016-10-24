@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>NOBUGS Countdown Clock</title>
+    
+<style>
+
+body{
+  text-align: center;
+  background: #F3F01D;
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+h1{
+  color: #40B93C;
+  font-weight: 900;
+  font-size: 100px;
+  margin: 40px 0px 20px;
+}
+
+#clockdiv {
+	font-family: sans-serif;
+	color: #fff;
+	display: inline-block;
+	font-weight: 700;
+	text-align: center;
+	font-size: 220px;
+	vertical-align: text-top;
+}
+
+#clockdiv > div {
+	padding: 15px;
+	border-radius: 9px;
+	background: #40B93C;
+	display: inline-block;
+}
+
+#clockdiv div > span {
+	padding: 20px;
+	border-radius: 9px;
+	background: #26963C;
+	display: inline-block;
+}
+
+#question {
+	backgroup: #000;
+	font-family: sans-serif;
+	color: #fff;
+	display: none;
+	font-weight: 700;
+	text-align: center;
+	font-size: 120px;
+	vertical-align: text-top;
+}
+
+#controls {
+	position: absolute;
+	width: 99%;
+	bottom: 0;
+	backgroup: #ff00ff;
+	font-family: sans-serif;
+	color: #fff;
+	display: block;
+	font-weight: 700;
+	text-align: center;
+	font-size: 24px;
+	vertical-align: text-top;
+	margin-left: auto; 
+	margin-right: auto;
+	text-align: justify;
+	text-justify: distribute-all-lines;
+	margin: auto;
+}
+
+#controls > div {
+	vertical-align: top;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	background: #40B93C;
+	border-radius: 8px;
+	padding: 12px;
+	margin: 0px 50px 0px 50px;
+}
+
+.stretch {
+	width: 100%;
+	display: inline-block;
+	font-size; 0;
+	line-height: 0;
+}
+
+.smalltext {
+	padding-top: 5px;
+	font-size: 36px;
+}
+    </style>
+
+<script>
+  window.console = window.console || function(t) {};
+</script>
+
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+</head>
+
+<body translate="no" >
+
+    <h1>NOBUGS 2016</h1>
+	<div id="clockdiv">
+  	<div>
+    		<span class="minutes"></span>
+    		<div class="smalltext">minutes</div>
+  	</div>
+  	<div>
+    		<span class="seconds"></span>
+    		<div class="smalltext">seconds</div>
+  	</div>
+	</div>
+
+	<br/>    
+
+	<div id="question">
+		Questions
+	</div>
+
+	<div id="controls">
+		<div onclick="keynote()">
+			Keynote
+		</div>
+		<div onclick="oral()">
+			Oral
+		</div>
+		<div onclick="minioral()">
+			Mini-Oral
+		</div>
+		<span class="stretch"></span>
+	</div>
+<script>
+
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.now();
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor(t / (1000 * 60));
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  clearInterval(timeinterval);
+
+  clock.style.display = 'inline-block';
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+      clock.style.display = 'none';
+    }
+  }
+
+  updateClock();
+  timeinterval = setInterval(updateClock, 1000);
+}
+
+function keynote() {
+	var deadline = new Date(Date.now() + 45 * 60 * 1000);
+	initializeClock('clockdiv', deadline);
+}
+function oral() {
+	var deadline = new Date(Date.now() + 15 * 60 * 1000);
+	initializeClock('clockdiv', deadline);
+}
+function minioral() {
+	var deadline = new Date(Date.now() + 5 * 60 * 1000);
+	initializeClock('clockdiv', deadline);
+}
+
+var timeinterval = 0;
+var clock = document.getElementById('clockdiv');
+clock.style.display = 'none';
+</script>
+    
+</body>
+</html>
